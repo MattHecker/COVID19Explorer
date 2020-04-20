@@ -1,20 +1,4 @@
-library(tidyverse)
-library(plyr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(ggthemes)
-library(plotly)
-library(RColorBrewer)
-library(shiny)
-library(shinydashboard)
-library(shinyalert)
-library(shinythemes)
-library(shinyWidgets)
-library(leaflet)
-library(DT)
-library(jsonlite)
-library(htmltools)
+
 
 # Using the /all route from https://covid19api.com/#details, then converting JSON to data frame
 
