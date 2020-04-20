@@ -216,7 +216,7 @@ server <- function(input, output) {
   
   shinyalert(
     title = "Welcome to the Coronavirus Explorer",
-    text = "Click the play button on 'Select Date Range' to animate Coronavirus spread over time",
+    text = "Click the play button on 'Select Date Range' to animate Coronavirus spread over time. Or, navigate to the 'Data Explorer' tab to view summary tables and graphs'",
     closeOnEsc = TRUE,
     closeOnClickOutside = TRUE,
     type = "info",
