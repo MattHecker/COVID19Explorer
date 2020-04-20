@@ -18,8 +18,8 @@ library(htmltools)
 
 # Using the /all route from https://covid19api.com/#details, then converting JSON to data frame
 
-# COVIDALLDATA <- fromJSON(txt = "all4172020.json")
-# COVIDALLDATASUMMARY <- fromJSON(txt = "summary4172020.json")
+COVIDALLDATA <- fromJSON(txt = "all4202020.json")
+COVIDALLDATASUMMARY <- fromJSON(txt = "summary4202020.json")
 COVIDALLDATADF <- as.data.frame(COVIDALLDATA)
 COVIDALLDATADF$Date <- as.Date(COVIDALLDATADF$Date)
 COVIDALLDATADF$Lat <- as.numeric(COVIDALLDATADF$Lat)
@@ -30,6 +30,7 @@ COVIDALLDATADF$Lon <- as.numeric(COVIDALLDATADF$Lon)
 COVIDALLDATADF_ggplot <- subset(COVIDALLDATADF, Country %in% c("United States of America", "Italy", "Spain", "China", "Germany",  "Iran, Islamic Republic of", "France", "United Kingdom"))
 COVIDALLDATADF_ggplot$Country <- gsub("United States of America", "US", COVIDALLDATADF_ggplot$Country)
 COVIDALLDATADF_ggplot$Country <- gsub("Iran, Islamic Republic of", "Iran", COVIDALLDATADF_ggplot$Country)
+COVIDALLDATADF_ggplot$Country <- gsub("United Kingdom",  "UK", COVIDALLDATADF_ggplot$Country)
 COVIDALLDATADF_ggplot_agg <- aggregate(COVIDALLDATADF_ggplot$Confirmed, by=list(Category=COVIDALLDATADF_ggplot$Date, COVIDALLDATADF_ggplot$Country), FUN=sum)
 names(COVIDALLDATADF_ggplot_agg) = c("Date", "Country", "Cases")
 
@@ -70,8 +71,7 @@ ggplot1_functionnew = function(COVIDALLDATADF_ggplot_agg, date_range) {
     geom_point(size = 1.2) +
     scale_y_continuous(name = "Cumulative Cases", labels = scales::comma) +
     theme_few() +
-    scale_color_tableau("Tableau 10") +
-    theme(legend.position = "bottom")
+    scale_color_tableau("Tableau 10")
   ggplot1new
 }
 
