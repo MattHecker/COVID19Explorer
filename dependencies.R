@@ -1,13 +1,10 @@
 # List of required/used R packages
 
-library(tidyverse)
-library(plyr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(ggthemes)
 library(plotly)
-library(RColorBrewer)
 library(shiny)
 library(shinydashboard)
 library(shinyalert)
