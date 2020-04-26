@@ -2,12 +2,14 @@
 
 # Using the /all route from https://covid19api.com/#details, then converting JSON to data frame
 
-COVIDALLDATA <- fromJSON(txt = "all4202020.json")
-COVIDALLDATASUMMARY <- fromJSON(txt = "summary4202020.json")
+COVIDALLDATA <- fromJSON(txt = "all4232020.json")
+COVIDALLDATASUMMARY <- fromJSON(txt = "summary4232020.json")
 COVIDALLDATADF <- as.data.frame(COVIDALLDATA)
 COVIDALLDATADF$Date <- as.Date(COVIDALLDATADF$Date)
 COVIDALLDATADF$Lat <- as.numeric(COVIDALLDATADF$Lat)
 COVIDALLDATADF$Lon <- as.numeric(COVIDALLDATADF$Lon)
+COVIDALLDATADF <- COVIDALLDATADF %>%
+  select(-"CityCode")
 
 # Selecting top 8 countries by total cases, renaming, and aggregating for use in ggplot
 
@@ -71,7 +73,7 @@ ui <- dashboardPage(
       menuItem(h4("Graph"),  tabName = "graph"),
       menuItem(h4("Data Explorer"), tabName = "rawdata")
     ),
-    tags$i(h6("Data obtained from the Johns Hopkins University CSSE repository, via covid19api.com. See more here: ", tags$a(href="https://github.com/CSSEGISandData/COVID-19", "JHU Coronavirus Data Repository"), "and", tags$a(href="https://covid19api.com/", "Covid-19 API")))
+    tags$i(h6("Data updated daily from the Johns Hopkins University CSSE repository, via covid19api.com. See more here: ", tags$a(href="https://github.com/CSSEGISandData/COVID-19", "JHU Coronavirus Data Repository"), "and", tags$a(href="https://covid19api.com/", "Covid-19 API")))
   ),
   #    plotOutput("ggplot1_function", height = "240px", width="100%")),
   dashboardBody(
@@ -117,7 +119,7 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-# Creating reactive data so that values change when new input is selected
+  # Creating reactive data so that values change when new input is selected
   COV19_API_DF_Reactnew <- reactive({
     req(input$date_range)
     COVIDALLDATADF %>%
@@ -135,14 +137,14 @@ server <- function(input, output) {
       filter(Date %in% input$date_range) %>%
       select("Country", "Recovered", "Date")
   })
-
-# Leaflet base map output 
+  
+  # Leaflet base map output 
   output$mymap2 <- renderLeaflet({
     basemap2
     
   })
-
-# Leaflet map output with circle markers, labels, etc
+  
+  # Leaflet map output with circle markers, labels, etc
   observeEvent(input$date_range, {
     leafletProxy("mymap2") %>%
       clearMarkers() %>%
@@ -163,7 +165,7 @@ server <- function(input, output) {
     
   })
   
-# Displays reactive values for Confirmed Cases, Deaths, Recovered Cases, and ggplot in sidebar of "Graph" tab  
+  # Displays reactive values for Confirmed Cases, Deaths, Recovered Cases, and ggplot in sidebar of "Graph" tab  
   
   output$count_total_cases_reactivenew <- renderText(({
     paste0(prettyNum(sum(COV19_API_DF_Reactnew()$Confirmed), big.mark = ","), " Confirmed Cases")
@@ -191,16 +193,18 @@ server <- function(input, output) {
     df <- COVIDALLDATASUMMARYDF %>%
       select(Country, "Total Confirmed Cases" = "TotalConfirmed", "New Confirmed Cases" = "NewConfirmed",
              "Total Deaths" = "TotalDeaths", "New Deaths" = "NewDeaths", "Total Recovered Cases" = "TotalRecovered",
-             "New Recovered Cases" = "NewRecovered", "Date")
-    datatable(df, list(order = list(list(2, 'desc'))))
+             "New Recovered Cases" = "NewRecovered")
+    datatable(df, list(order = list(list(2, 'desc')))) %>%
+      formatCurrency(c('Total Confirmed Cases', 'New Confirmed Cases', 'Total Deaths', 'New Deaths', 'Total Recovered Cases', 'New Recovered Cases'), currency = "", interval = 3, mark = ",") %>%
+      formatRound(c('Total Confirmed Cases', 'New Confirmed Cases', 'Total Deaths', 'New Deaths', 'Total Recovered Cases', 'New Recovered Cases'), 0)
     
   })
   
-# Displays alert when app is opened
+  # Displays alert when app is opened
   
   shinyalert(
     title = "Welcome to the Coronavirus Explorer",
-    text = "Click the play button on 'Select Date Range' to animate Coronavirus spread over time. Or, navigate to the 'Data Explorer' tab to view summary tables and graphs'",
+    text = "Click the play button on 'Select Date Range' to animate Coronavirus spread over time. Or, navigate to the 'Data Explorer' tab to view summary tables and graphs",
     closeOnEsc = TRUE,
     closeOnClickOutside = TRUE,
     type = "info",
