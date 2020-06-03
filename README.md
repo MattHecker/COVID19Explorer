@@ -3,7 +3,7 @@ The Covid-19 Explorer is an R Shiny dashboard that tracks global Coronavirus cas
 
 Link: https://covid19explorer.shinyapps.io/covid19explorer/
 
-UPDATE: Due to R Shiny memory limitations, this data can no longer be updated daily.
+UPDATE: Due to R Shiny memory limitations, this data is no longer being updated daily.
 
 ![](images/newcovidss.png)
 
