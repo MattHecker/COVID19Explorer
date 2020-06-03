@@ -1,10 +1,8 @@
-
-
 # Using the /all route from https://covid19api.com/#details, then converting JSON to data frame
 
-COVIDALLDATA <- fromJSON(txt = "all4232020.json")
+COVIDALLDATADF <- fromJSON(txt = "all4232020.json")
 COVIDALLDATASUMMARY <- fromJSON(txt = "summary4232020.json")
-COVIDALLDATADF <- as.data.frame(COVIDALLDATA)
+COVIDALLDATADF <- as.data.frame(COVIDALLDATADF)
 COVIDALLDATADF$Date <- as.Date(COVIDALLDATADF$Date)
 COVIDALLDATADF$Lat <- as.numeric(COVIDALLDATADF$Lat)
 COVIDALLDATADF$Lon <- as.numeric(COVIDALLDATADF$Lon)
@@ -32,7 +30,7 @@ COVIDALLDATASUMMARYDF <- COVIDALLDATASUMMARYDF %>%
 
 basemap2 = leaflet(COVIDALLDATADF) %>%
   addTiles()  %>%
-  addProviderTiles(providers$CartoDB.Positron) %>%
+  addProviderTiles(providers$CartoDB.VoyagerLabelsUnder) %>%
   fitBounds(~-70, -120, ~80, 80)
 
 # Creating interactive plot for Data Explorer tab
@@ -204,7 +202,7 @@ server <- function(input, output) {
   
   shinyalert(
     title = "Welcome to the Coronavirus Explorer",
-    text = "Click the play button on 'Select Date Range' to animate Coronavirus spread over time. Or, navigate to the 'Data Explorer' tab to view summary tables and graphs",
+    text = "NOTE: Due to memory limitations with ShinyApps, the data in this dashboard is no longer being updated daily.",
     closeOnEsc = TRUE,
     closeOnClickOutside = TRUE,
     type = "info",
