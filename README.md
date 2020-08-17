@@ -7,4 +7,4 @@ UPDATE: Due to R Shiny memory limitations, this data is no longer being updated 
 
 ![](images/ezgif.com-video-to-gif.gif)
 
-![](images/ezgif.com-video-to-gif (1).gif)
+![](images/ezgif.com-video-to-gif(1).gif)
