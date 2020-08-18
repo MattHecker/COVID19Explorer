@@ -5,6 +5,6 @@ Link: https://covid19explorer.shinyapps.io/covid19explorer/
 
 UPDATE: Due to R Shiny memory limitations, this data is no longer being updated daily.
 
-![](images/tracker1finalplz.gif)
+![](images/ezgiffinal1.gif)
 
 ![](images/gif2.gif)
